@@ -2,6 +2,7 @@
 #define MOON_H
 #include <string>
 #include<iostream>
+#include <iomanip> //szebb kiirashoz (YT tutorial)
 class Moon
 {
 private: 
@@ -24,5 +25,18 @@ public:
 	void setMass(double newMass);
 	void setRadius(double newRad);
 	void setDistance(double newDist);
+
+	//adatkiiras
+	void printData() const;
+
+	//compare operatro tulterheles
+	bool operator==(const Moon& other) const;
+	bool operator!=(const Moon& other) const;
+
+	//masolas mozgatas
+	Moon(const Moon&) = default;
+	Moon& operator=(const Moon&) = default;
+	Moon(Moon&&) = default;
+	Moon& operator = (Moon&&) = default;
 };
-#endif MOON_H
+#endif // !MOON_H
