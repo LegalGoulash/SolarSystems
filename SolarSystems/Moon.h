@@ -1,4 +1,5 @@
 #ifndef MOON_H
+#define MOON_H
 #include <string>
 #include<iostream>
 class Moon
@@ -24,7 +25,7 @@ public:
 	void setRadius(double newRad);
 	void setDistance(double newDist);
 };
-#endif // !MOON_H
+#endif // MOON_H
 
 
 
