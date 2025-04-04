@@ -25,4 +25,4 @@ public:
 	void setRadius(double newRad);
 	void setDistance(double newDist);
 };
-#endif MOON_H
+#endif // !MOON_H
