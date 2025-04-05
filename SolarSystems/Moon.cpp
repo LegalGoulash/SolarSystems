@@ -8,19 +8,19 @@
 Moon::Moon(const std::string& name, double mass, double radius, double distance)
 	:name(name), mass(mass), radius(radius), distance(distance)
 {
-	if (mass < 1.612e+24) { std::cout << "Tul kicsi a tomeg: foldtomeg 27 % ertekre beallitas!\n"; this->mass = 1.612e+24; }
+	if (mass < 1.612e+24) { std::cerr << "Tul kicsi a tomeg: foldtomeg 27 % ertekre beallitas!\n"; this->mass = 1.612e+24; }
 	else
 	{
 		this->mass = mass;
 	}// tomeg hibakezelese olcso modon
 
-	if (radius < 199.999) { std::cout << "Tul kicsi a sugar, alapertekre allitas!\n"; this->radius = 200; }
+	if (radius < 199.999) { std::cerr << "Tul kicsi a sugar, alapertekre allitas!\n"; this->radius = 200; }
 	else
 	{
 		this->radius = radius;
 	}// sugar kezelese olcso modon
 
-	if (distance < 0) { std::cout << "Tul kicsi a keringesi tavolsag 0km alapertekre allitas 200.000 km "; this->distance = 200000; }
+	if (distance < 0) { std::cerr << "Tul kicsi a keringesi tavolsag 0km alapertekre allitas 200.000 km "; this->distance = 200000; }
 	else
 	{
 		this->distance = distance;
@@ -56,15 +56,15 @@ void Moon::setName(const std::string& newName) {
 }
 
 void Moon::setMass(double newMass) {
-	if (newMass <= 0) {
-		std::cerr << "Nem lehet < 0 sully!";
+	if (newMass <= 1.612e+24) {
+		std::cerr << "Nem lehet < 1.612e+24 sully!";
 	}
 	mass = newMass;//tomeg lekezelese
 }
 
 void Moon::setRadius(double newRadius) {
-	if (newRadius <= 0) {
-		std::cerr << "Nem lehet < 0 sugara a bolygonak!";
+	if (newRadius < 200) {
+		std::cerr << "Nem lehet < 200 sugara a bolygonak!";
 	}
 	radius = newRadius;// sugar lekezelese
 }

@@ -44,6 +44,14 @@ public:
 	Planet& operator=(const Planet&) = default;
 	Planet(Planet&&) = default;
 	Planet& operator= (Planet&&) = default;
+
+	//Holdal valo izek
+	void addMoon(std::unique_ptr<Moon> moon);
+	bool removeMoon(const std::string& moonName);
+	Moon* findMoon(const std::string& moonName) const;
+	
+	//bena vagyok xdddd
+	bool isMoonNameAvalible(const std::string& name)const;
 };
 
 
