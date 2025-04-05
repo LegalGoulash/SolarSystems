@@ -1,1 +1,3 @@
-#include "Panet.h"
+#include "Planet.h"
+
+Planet::Planet

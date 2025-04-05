@@ -6,7 +6,7 @@
 #include <vector>
 #include "Moon.h"
 
-class Panet
+class Planet
 {
 private:
 	std::string name;
@@ -43,7 +43,7 @@ public:
 	Planet(const Planet&) = default;
 	Planet& operator=(const Planet&) = default;
 	Planet(Planet&&) = default;
-	Planet& operatro = (Planet&&) = default;
+	Planet& operator= (Planet&&) = default;
 };
 
 
