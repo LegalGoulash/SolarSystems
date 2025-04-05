@@ -128,10 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Moon.cpp" />
+    <ClCompile Include="Planet.cpp" />
     <ClCompile Include="SolarSystems.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Moon.h" />
+    <ClInclude Include="Planet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
