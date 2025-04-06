@@ -3,11 +3,7 @@
 Planet::Planet(const std::string& name, double mass, double distance, double radius)
 	:name(name), mass(mass), distance(distance), radius(radius)
 {
-	if (name.empty()) { std::cerr << "Nem lehet ures a nev"; return; }
-	else
-	{
-		this->name = name;
-	}
+	if (name.empty()) { throw std::invalid_argument("Nem lehet ures a nev!"); }
 	//inc hiba nev = 0
 	if (mass <= 1.612e+24) { std::cerr << "Tul kicsi a tomeg: foldtomeg 27 % ertekre beallitas!\n"; this->mass = 1.612e+24; }
 	else

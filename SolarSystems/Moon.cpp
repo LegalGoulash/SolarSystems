@@ -8,6 +8,8 @@
 Moon::Moon(const std::string& name, double mass, double radius, double distance)
 	:name(name), mass(mass), radius(radius), distance(distance)
 {
+	if (name.empty()) { throw std::invalid_argument("Nem lehet ures a nev!"); }
+
 	if (mass < 1.612e+24) { std::cerr << "Tul kicsi a tomeg: foldtomeg 27 % ertekre beallitas!\n"; this->mass = 1.612e+24; }
 	else
 	{
