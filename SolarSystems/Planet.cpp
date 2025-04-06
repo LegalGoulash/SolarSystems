@@ -1,4 +1,5 @@
 #include "Planet.h"
+#include "Moon.h" // unique ptr miatt kell 
 #include <algorithm>
 Planet::Planet(const std::string& name, double mass, double distance, double radius)
 	:name(name), mass(mass), distance(distance), radius(radius)

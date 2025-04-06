@@ -131,11 +131,13 @@
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="SolarSystemLoader.cpp" />
     <ClCompile Include="SolarSystems.cpp" />
+    <ClCompile Include="Sun.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Moon.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="SolarSystemLoader.h" />
+    <ClInclude Include="Sun.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

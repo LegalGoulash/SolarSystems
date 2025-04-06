@@ -7,7 +7,8 @@
 #include<iostream>
 #include<iomanip>
 #include<algorithm>
-#include "Moon.h"
+
+class Moon; // kivaltja a moon.h t mert moon vektorokat rangatunk ugye 
 
 class Planet
 {
