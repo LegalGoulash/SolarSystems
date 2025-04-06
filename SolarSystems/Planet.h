@@ -4,6 +4,9 @@
 #include<string>
 #include<memory>
 #include <vector>
+#include<iostream>
+#include<iomanip>
+#include<algorithm>
 #include "Moon.h"
 
 class Planet
@@ -23,6 +26,7 @@ public:
 	double getMass() const;
 	double getRadius() const;
 	double getDistance() const;
+	const std::vector<std::unique_ptr<Moon>>& getMoons() const {return moons; } // holdak kiirasa (v2 ) 
 
 	//setter fv.k 
 
@@ -46,12 +50,20 @@ public:
 	Planet& operator= (Planet&&) = default;
 
 	//Holdal valo izek
-	void addMoon(std::unique_ptr<Moon> moon);
+	void addMoon(std::unique_ptr<Moon> moon); // hold hozzaadasa a vektor hoz PL: file vetoltes
+
+	void addMoon(const std::string& name, double mass, double radius, double distance);
+
 	bool removeMoon(const std::string& moonName);
+
 	Moon* findMoon(const std::string& moonName) const;
 	
-	//bena vagyok xdddd
-	bool isMoonNameAvalible(const std::string& name)const;
+	bool isMoonNameAvalible(const std::string& name) const;
+	//bena vagyok / nem nagyon jo de ez van xddd
+
+	//SYS LOADER cucmok
+	bool hasMoon(const std::string& moonName) const;
+	size_t mooonCount() const { return moons.size(); }
 };
 
 

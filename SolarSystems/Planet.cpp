@@ -82,11 +82,27 @@ void Planet::printData() const {
 		<< std::setw(15) << "Distance:" << distance << " km\n";
 
 }// kiiras fancy modon 
-//nagyon bena vagyok es iyg tudom megoldani xddd
+
+//osszehasonlito operatorok 
+
+bool Planet::operator==(const Planet& other) const {
+	return name == other.name &&
+		mass == other.mass &&
+		distance == other.distance &&
+		radius == other.radius;
+}// osszehasonlito minden tag szamit
+
+bool Planet::operator!=(const Planet& other) const {
+	return !(*this == other); //sajatmagam pointer osszehasonlitasa a maiskkal
+
+}
+
+//nagyon bena vagyok es igy tudom megoldani xddd
 bool Planet::isMoonNameAvalible(const std::string& name)const {
 	return std::none_of(moons.begin(), moons.end(),
 		[&name](const auto& m) {return m->getName() == name; });
 }
+
 void Planet::addMoon(std::unique_ptr <Moon> moon) {
 	if (!moon) throw std::invalid_argument("Moon nem lehet NULL <ptr> ");
 
@@ -96,4 +112,33 @@ void Planet::addMoon(std::unique_ptr <Moon> moon) {
 	if (it != moons.end()) {
 		throw std::runtime_error("Ilyen nevu hold mar letezik");
 	}
+}
+void Planet::addMoon(const std::string& name, double mass, double radius, double distance) {
+	if (!isMoonNameAvalible(name)) {
+		throw std::runtime_error("Ezzel a nevvel mar letezik hold!");
+	}
+	moons.push_back(std::make_unique < Moon >(name, mass, radius, distance));
+	// egyedi vektor letrehozas mert meno ;D
+}
+//manualis hold hozzaadas 
+
+bool Planet::removeMoon(const std::string& moonName) {
+	auto it = std::find_if(moons.begin(), moons.end(),
+		[&moonName](const auto& m) {return m->getName() == moonName; });
+	if (it != moons.end()) {
+		moons.erase(it);
+		return true;
+	}
+	return false;
+}
+
+Moon* Planet::findMoon(const std::string& moonName)const {
+	auto it = std::find_if(moons.begin(), moons.end(),
+		[&moonName](const auto& m) {return m->getName() == moonName; });
+
+	return(it != moons.end()) ? it->get() : nullptr;
+}
+
+bool Planet::hasMoon(const std::string& moonName)const {
+	return !isMoonNameAvalible(moonName);
 }
