@@ -19,11 +19,16 @@ private:
 	double radius; //km ben
 	std::vector<std::unique_ptr<Moon>> moons; //holdakat tartalmaazo vektor
 public:
-	Planet(const std::string& name, double mass, double distance, double radius);
+	Planet(const std::string& name ="Nevtelen Bolygo", double mass= 1.612e+24, double distance=0.0, double radius= 199.999);
+	
 	~Planet() = default;
+	Planet(const Planet&) = delete;
+	Planet& operator=(const Planet&) = delete;
+	Planet(Planet&&) = default;
+	Planet& operator=(Planet&&) = default;
 
 	//getter fv.k  
-	std::string getName() const;
+	const std::string getName() const;
 	double getMass() const;
 	double getRadius() const;
 	double getDistance() const;
@@ -38,6 +43,7 @@ public:
 
 	//adat kiiras 
 	void printData() const;
+	void printMoons() const;
 
 	//osszehasonlito op.
 	bool operator==(const Planet& other) const;
@@ -51,20 +57,16 @@ public:
 	Planet& operator= (Planet&&) = default;
 
 	//Holdal valo izek
-	void addMoon(std::unique_ptr<Moon> moon); // hold hozzaadasa a vektor hoz PL: file vetoltes
-
+	void addMoon(std::unique_ptr<Moon> moon);
 	void addMoon(const std::string& name, double mass, double radius, double distance);
-
 	bool removeMoon(const std::string& moonName);
-
 	Moon* findMoon(const std::string& moonName) const;
-	
-	bool isMoonNameAvalible(const std::string& name) const;
-	//bena vagyok / nem nagyon jo de ez van xddd
-
-	//SYS LOADER cucmok
+	bool isMoonNameAvailable(const std::string& name) const;
 	bool hasMoon(const std::string& moonName) const;
-	size_t mooonCount() const { return moons.size(); }
+	size_t moonCount() const;
+	// nem nagyon jo ebben de ez van xddd
+
+	size_t mooonCount() const;
 };
 
 
