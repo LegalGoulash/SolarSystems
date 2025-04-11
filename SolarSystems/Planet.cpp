@@ -28,7 +28,7 @@ Planet::Planet(const std::string& name, double mass, double distance, double rad
 
 //getter fv.k 
 
-std::string Planet::getName()const {
+const std::string Planet::getName()const {
 	return name;
 }
 
@@ -44,6 +44,10 @@ double Planet::getDistance() const {
 	return distance;
 }
 
+const std::vector < std::unique_ptr < Moon >>& Planet::getMoons() const {
+	return moons; 
+}
+
 //setter fv.k
 
 void Planet::setName(const std::string& newName)  {
@@ -57,14 +61,14 @@ void Planet::setName(const std::string& newName)  {
 
 void Planet::setMass(double newMass) {
 	if (newMass <= 1.612e+24) {
-		std::cerr << "Nem lehet < 1.612e+24 sully!";
+		std::cerr << "Nem lehet kisebb 1.612e+24 tomeg!";
 	}
 	mass = newMass;//tomeg lekezelese
 }
 
 void Planet::setRadius(double newRadius) {
 	if (newRadius < 200) {
-		std::cerr << "Nem lehet < 200 sugara a bolygonak!";
+		std::cerr << "Nem lehet kissebb  mint 200km sugara a bolygonak!";
 	}
 	radius = newRadius;// sugar lekezelese
 }
@@ -100,6 +104,15 @@ bool Planet::operator!=(const Planet& other) const {
 }
 
 //nagyon bena vagyok es igy tudom megoldani xddd
+
+Moon* Planet::findMoon(const std::string& moonName) const {
+	auto it = std::find_if(moons.begin(), moons.end(),
+		[&moonName](const std::unique_ptr<Moon>& m) {
+			return m->getName() == moonName;
+		});
+
+	return (it != moons.end()) ? it->get() : nullptr;
+}
 bool Planet::isMoonNameAvalible(const std::string& name)const {
 	return std::none_of(moons.begin(), moons.end(),
 		[&name](const auto& m) {return m->getName() == name; });
@@ -116,7 +129,7 @@ void Planet::addMoon(std::unique_ptr <Moon> moon) {
 	}
 }
 void Planet::addMoon(const std::string& name, double mass, double radius, double distance) {
-	if (!isMoonNameAvalible(name)) {
+	if (!(name)) {
 		throw std::runtime_error("Ezzel a nevvel mar letezik hold!");
 	}
 	moons.push_back(std::make_unique < Moon >(name, mass, radius, distance));
@@ -142,5 +155,5 @@ Moon* Planet::findMoon(const std::string& moonName)const {
 }
 
 bool Planet::hasMoon(const std::string& moonName)const {
-	return !isMoonNameAvalible(moonName);
+	return findMoon(moonName) == nullptr;
 }
