@@ -128,6 +128,7 @@ void Planet::addMoon(std::unique_ptr <Moon> moon) {
 		throw std::runtime_error("Ilyen nevu hold mar letezik");
 	}
 }
+
 void Planet::addMoon(const std::string& name, double mass, double radius, double distance) {
 	if (!(name)) {
 		throw std::runtime_error("Ezzel a nevvel mar letezik hold!");
