@@ -84,15 +84,8 @@ void Planet::printData() const {
 		<< std::setw(15) << "Distance:" << distance << " km\n";
 
 }// kiiras fancy modon 
-void Planet::printMoons() const {
-	std::cout << "Moons of :" << name << ":\n";
-	for (const auto& moon : moons){
-		moon->printData();
-		std::cout << "-----------------\n";
-	}
-}
 
-// operatorok 
+//osszehasonlito operatorok 
 
 bool Planet::operator==(const Planet& other) const {
 	return name == other.name &&
@@ -104,12 +97,6 @@ bool Planet::operator==(const Planet& other) const {
 bool Planet::operator!=(const Planet& other) const {
 	return !(*this == other); //sajatmagam pointer osszehasonlitasa a maiskkal
 
-}
-
-std::ostream& operator<<(std::ostream& os, const Planet& planet) {
-	os << "Planet: " << planet.name << " (Mass: " << planet.mass << " kg, Radius: "
-		<< planet.radius << " km, Distance: " << planet.distance << " million km)";
-	return os;
 }
 
 //nagyon bena vagyok es igy tudom megoldani xddd
