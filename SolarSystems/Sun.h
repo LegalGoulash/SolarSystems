@@ -5,6 +5,8 @@
 #include<vector>
 #include<memory>
 #include<iostream>
+#include<iomanip>
+#include <algorithm>
 
 //alosztalyok berangatasa
 class Moon;
@@ -13,11 +15,11 @@ class Planet;
 class Sun
 {
 private:
-	std::string solarSystemName_; // oda kell figyelni 
+	// oda kell figyelni 
 	std::string name;
 	double mass; //kg ban
 	double radius; //km ben 
-	double luminisity;
+	double temperature; // Kelvin ben
 	std::vector<std::unique_ptr<Planet>> planets;
 	// planet vektor
 
@@ -25,44 +27,56 @@ private:
 	void loadFromStream(std::istream& iss);
 public:
 	//konstruktorok
-	Sun(const std::string& solarSystemName, const std::string& name, double mass, double radius, double lumisoty);
-	// destruktor nem kell mert 
-	// az ala tartozo objektumok onmaguknak lekezelik
+	Sun(const std::string& name="Ismeretlen Csillag", double mass = 1.989e30, double radius=696540.0, double temperature = 5780.0);
+
 
 
 	//getter fv.k
-	const std::string& getSolarSystemName() const { return solarSystemName_; }
-	const std::string& getName() const { return name; }
-	double getMass() const { return mass; }
-	double getRadius() const { return radius; }
-	double getLuminosity() const { return luminisity; }
-	const std::vector<std::unique_ptr<Planet>>& getPlanets() const { return planets; } //vektorral ter vissza 
+	const std::string& getName() const;
+	double getMass() const;
+	double getRadius() const;
+	double getTemperature() const;
+	const std::vector<std::unique_ptr<Planet>>& getPlanets() const; //vektorral ter vissza 
 
 	//setterek
 
 	void setName(const std::string& newName);
 	void setMass(double newMass);
 	void setRadius(double newRadius);
-	void setLuminosity(double newLum);
+	void setTemperature(double newTemp);
 	//bolygokkal mokolas 
 
-	void addPlanet(std::unique_ptr<Planet>& planet);
+	void addPlanet(std::unique_ptr<Planet> planet);
+	void addPlanet(const std::string& name, double mass, double distance, double radius);
+
 	Planet* findPlanet(const std::string& name) const;
+
+	bool hasPlanet(const std::string& name) const; //fv arra hogy van e ilyen bolygolylyja
+	bool isPlanetNameOk(const std::string& name) const;//fv arra hogy mar letezik e ilyen nevu bolygo ebben a redszerben
+
 	bool removePlanet(const std::string& name);
+
+	size_t planetCount()const; // egyszerune hany bolygoja van 
 
 	//adatkiiras
 
 	void printData()const;
+	void printPlanets() const; // bolygok kiirasa csak 
 
 	//osszhasonlitasok operatorral
 	bool operator==(const Sun& other) const;
 	bool operator!=(const Sun& other) const;
+	
+	//mivel van unique ptr kell a HAMMER
+	~Sun() = default;
+	Sun(const Sun&) = delete;
+	Sun& operator=(const Sun&) = delete;
+	Sun(Sun&&) = default;
+	Sun& operator=(Sun&&) = default;
 
-	//Sys loader szuksegessege miatti cucmak 
-	static std::unique_ptr<Sun> createFromStream(std::istream& iss);
+	// kiiro OP fuzhetoen xd elegge tulterheles
+	friend std::ostream& operator<<(std::ostream& os, const Sun& sun);
 
 };
 
 #endif // !SUN_H
-
-
