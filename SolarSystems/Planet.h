@@ -56,6 +56,7 @@ public:
 	Planet(Planet&&) = default;
 	Planet& operator= (Planet&&) = default;
 
+
 	//Holdal valo izek
 	void addMoon(std::unique_ptr<Moon> moon);
 	void addMoon(const std::string& name, double mass, double radius, double distance);
@@ -66,7 +67,7 @@ public:
 	size_t moonCount() const;
 	// nem nagyon jo ebben de ez van xddd
 
-	size_t mooonCount() const;
+	friend std::ostream& operator<<(std::ostream& os, const Planet& planet);
 };
 
 

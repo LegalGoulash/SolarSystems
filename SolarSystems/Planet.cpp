@@ -89,6 +89,14 @@ void Planet::printData() const {
 
 }// kiiras fancy modon 
 
+void Planet::printMoons() const {
+	std::cout << "Moons of " << name << ":\n";
+	for (const auto& moon : moons) {
+		moon->printData();
+		std::cout << "----------------\n";
+	}
+}
+
 //osszehasonlito operatorok 
 
 bool Planet::operator==(const Planet& other) const {
@@ -103,20 +111,40 @@ bool Planet::operator!=(const Planet& other) const {
 
 }
 
+std::ostream& operator<<(std::ostream& os, const Planet& planet) {
+	os << "Planet: " << planet.name << " (Mass: " << planet.mass << " kg, Radius: "
+		<< planet.radius << " km, Distance: " << planet.distance << " million km)";
+	return os;
+}
 //nagyon bena vagyok es igy tudom megoldani xddd
 
+
+// holdakkal valo mokolasok 
 Moon* Planet::findMoon(const std::string& moonName) const {
 	auto it = std::find_if(moons.begin(), moons.end(),
 		[&moonName](const std::unique_ptr<Moon>& m) {
 			return m->getName() == moonName;
-		});
+		});// vegigfutni az egeszen
 
 	return (it != moons.end()) ? it->get() : nullptr;
 }
-bool Planet::isMoonNameAvalible(const std::string& name)const {
-	return std::none_of(moons.begin(), moons.end(),
-		[&name](const auto& m) {return m->getName() == name; });
+
+
+Moon* Planet::findMoon(const std::string& moonName)const {
+	auto it = std::find_if(moons.begin(), moons.end(),
+		[&moonName](const auto& m) {return m->getName() == moonName; });
+
+	return(it != moons.end()) ? it->get() : nullptr;
 }
+
+bool Planet::isMoonNameAvailable(const std::string& name) const {
+	return findMoon(name) == nullptr;
+}
+
+bool Planet::hasMoon(const std::string& moonName)const {
+	return findMoon(moonName) != nullptr;
+}
+
 
 void Planet::addMoon(std::unique_ptr <Moon> moon) {
 	if (!moon) throw std::invalid_argument("Moon nem lehet NULL <ptr> ");
@@ -148,13 +176,5 @@ bool Planet::removeMoon(const std::string& moonName) {
 	return false;
 }
 
-Moon* Planet::findMoon(const std::string& moonName)const {
-	auto it = std::find_if(moons.begin(), moons.end(),
-		[&moonName](const auto& m) {return m->getName() == moonName; });
 
-	return(it != moons.end()) ? it->get() : nullptr;
-}
 
-bool Planet::hasMoon(const std::string& moonName)const {
-	return findMoon(moonName) == nullptr;
-}
