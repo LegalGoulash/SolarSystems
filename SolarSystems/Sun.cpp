@@ -7,15 +7,58 @@
 #include<iostream>
 #include<algorithm>
 
-Sun::Sun(const std::string& solarSystemName, const std::string& name, double mass, double radius, double luminosity)
-	:solarSystemName_(solarSystemName), name(name), mass(mass), radius(radius), luminisity(luminosity) {
-	if (name.empty())
-	{
-		throw std::invalid_argument("Nem lehet ures a nev!");
-	}//nev hiba kezeles
+//konstruktor
+Sun::Sun(const std::string& name, double mass, double radius, double temperature)
+	:name(name), mass(mass),radius(radius), temperature(temperature){}
+
+//getterek
+const std::string& Sun::getName() const
+{
+	return name;
+}
+
+double Sun::getMass() const
+{
+	return mass;
+}
+
+double Sun::getRadius() const
+{
+	return radius;
+}
+
+double Sun::getTemperature() const
+{
+	return temperature;
 }
 
 const std::vector<std::unique_ptr<Planet>>& Sun::getPlanets() const
 {
-	// TODO: insert return statement here
+	return planets;
+}
+//setterek 
+
+void Sun::setName(const std::string& newName)
+{
+	name = newName;
+}
+
+void Sun::setMass(double newMass)
+{
+	mass = newMass;
+}
+
+void Sun::setRadius(double newRadius)
+{
+	radius = newRadius;
+}
+
+void Sun::setTemperature(double newTemp)
+{
+	temperature = newTemp;
+}
+// bojgoval mokolas
+void Sun::addPlanet(std::unique_ptr<Planet> planet)
+{
+
 }

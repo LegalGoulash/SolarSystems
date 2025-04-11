@@ -23,8 +23,7 @@ private:
 	std::vector<std::unique_ptr<Planet>> planets;
 	// planet vektor
 
-	//seged fv betolteshez
-	void loadFromStream(std::istream& iss);
+
 public:
 	//konstruktorok
 	Sun(const std::string& name="Ismeretlen Csillag", double mass = 1.989e30, double radius=696540.0, double temperature = 5780.0);
