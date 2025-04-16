@@ -21,14 +21,10 @@ private:
 public:
 	Planet(const std::string& name ="Nevtelen Bolygo", double mass= 1.612e+24, double distance=0.0, double radius= 199.999);
 	
-	~Planet() = default;
-	Planet(const Planet&) = delete;
-	Planet& operator=(const Planet&) = delete;
-	Planet(Planet&&) = default;
-	Planet& operator=(Planet&&) = default;
+	
 
 	//getter fv.k  
-	const std::string getName() const;
+	const std::string& getName() const;
 	double getMass() const;
 	double getRadius() const;
 	double getDistance() const;
@@ -51,10 +47,11 @@ public:
 
 	//masolas mozgatas 
 	
+	~Planet() = default;
+	Planet(Planet&&) = default;
+	Planet& operator=(Planet&&) = default;
 	Planet(const Planet&) = default;
 	Planet& operator=(const Planet&) = default;
-	Planet(Planet&&) = default;
-	Planet& operator= (Planet&&) = default;
 
 
 	//Holdal valo izek

@@ -25,8 +25,12 @@ private:
 
 
 public:
+	//konst ok 
+	static constexpr double MIN_MASS = 1.9884e30; //kg
+	static constexpr double MIN_RADIUS = 695700.0; //km
+	static constexpr double MIN_TEMP = 4100.0; // kelvin
 	//konstruktorok
-	Sun(const std::string& name="Ismeretlen Csillag", double mass = 1.989e30, double radius=696540.0, double temperature = 5780.0);
+	Sun(const std::string& name="Ismeretlen Csillag", double mass = 1.988416e30, double radius= 695700.0, double temperature = 4100.0);
 
 
 
@@ -43,28 +47,29 @@ public:
 	void setMass(double newMass);
 	void setRadius(double newRadius);
 	void setTemperature(double newTemp);
+
 	//bolygokkal mokolas 
 
 	void addPlanet(std::unique_ptr<Planet> planet);
 	void addPlanet(const std::string& name, double mass, double distance, double radius);
+	bool removePlanet(const std::string& name);
 
 	Planet* findPlanet(const std::string& name) const;
 
-	bool hasPlanet(const std::string& name) const; //fv arra hogy van e ilyen bolygolylyja
-	bool isPlanetNameOk(const std::string& name) const;//fv arra hogy mar letezik e ilyen nevu bolygo ebben a redszerben
+	bool hasPlanet(const std::string& name) const; //fv arra hogy van e ilyen 
 
-	bool removePlanet(const std::string& name);
-
-	size_t planetCount()const; // egyszerune hany bolygoja van 
+	size_t planetCount() const; // egyszeruen hany bolygoja van 
 
 	//adatkiiras
 
 	void printData()const;
 	void printPlanets() const; // bolygok kiirasa csak 
 
-	//osszhasonlitasok operatorral
+	//osszhasonlitasok operatorral es kiiras
 	bool operator==(const Sun& other) const;
 	bool operator!=(const Sun& other) const;
+	friend std::ostream& operator<<(std::ostream& os, const Sun& sun);
+
 	
 	//mivel van unique ptr kell a HAMMER
 	~Sun() = default;
@@ -73,9 +78,7 @@ public:
 	Sun(Sun&&) = default;
 	Sun& operator=(Sun&&) = default;
 
-	// kiiro OP fuzhetoen xd elegge tulterheles
-	friend std::ostream& operator<<(std::ostream& os, const Sun& sun);
-
+	static bool isValidSunNameChar(char c) {}
 };
 
 #endif // !SUN_H

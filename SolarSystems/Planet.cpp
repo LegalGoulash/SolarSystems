@@ -23,7 +23,7 @@ Planet::Planet(const std::string& name, double mass, double distance, double rad
 
 //getter fv.k 
 
-const std::string Planet::getName()const {
+const std::string& Planet::getName()const {
 	return name;
 }
 

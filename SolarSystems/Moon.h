@@ -15,7 +15,7 @@ public:
 	Moon(const std::string& name, double mass, double radius, double distance);
 
 	//getterek
-	std::string getName() const;
+	const std::string& getName() const;
 	double getMass() const;
 	double getRadius() const;
 	double getDistance() const;
