@@ -206,3 +206,8 @@ bool Planet::removeMoon(const std::string& moonName) {
 bool Planet::hasMoon(const std::string& moonName)const {
 	return findMoon(moonName) != nullptr; // ha van akkor nem nullptr '
 }
+
+size_t Planet::moonCount() const
+{
+	return moons.size();
+}
