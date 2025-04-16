@@ -1,29 +1,24 @@
 #include "Planet.h"
 #include "Moon.h" // unique ptr miatt kell 
 #include <algorithm>
+#include <string.h>
+#include<cctype>
 
 Planet::Planet(const std::string& name, double mass, double distance, double radius)
-	:name(name), mass(mass), distance(distance), radius(radius)
+	: name(name), mass(mass), distance(distance), radius(radius)
 {
-	if (name.empty()) { throw std::invalid_argument("Nem lehet ures a nev!"); }
-	//inc hiba nev = 0
-	if (mass <= 1.612e+24) { std::cerr << "Tul kicsi a tomeg: foldtomeg 27 % ertekre beallitas!\n"; this->mass = 1.612e+24; }
-	else
-	{
-		this->mass = mass;
-	}//tomeg hibakezeles olcso modon
+	if (name.empty()) throw std::invalid_argument("Nem lehet ures a nev!");
 
-	if (radius < 199.999) { std::cerr << "Tul kicsi a sugar, alapertekre allitas!\n"; this->radius = 200; }
-	else
-	{
-		this->radius = radius;
-	}// sugar kezelese olcso modon
+	// Tömeg validálása (minimum Földtömeg 27%-a)
+	const double MIN_MASS = 1.612e24; // kg
+	if (mass < MIN_MASS) throw std::invalid_argument("Tul kicsi a tomeg! Minimum: " + std::to_string(MIN_MASS) + " kg");
 
-	if (distance < 0) { std::cerr << "Tul kicsi a keringesi tavolsag 0km alapertekre allitas 200.000 km "; this->distance = 200000; }
-	else
-	{
-		this->distance = distance;
-	}// keringesi tavolsag hibakezelese olcso modon
+	// Sugár validálása (minimum 200 km)
+	const double MIN_RADIUS = 200.0; // km
+	if (radius < MIN_RADIUS) throw std::invalid_argument("Tul kicsi a sugar! Minimum: " + std::to_string(MIN_RADIUS) + " km");
+
+	// Távolság validálása (nem negatív)
+	if (distance < 0) throw std::invalid_argument("A keringesi tavolsag nem lehet negativ!");
 }
 
 //getter fv.k 
@@ -53,22 +48,23 @@ const std::vector < std::unique_ptr < Moon >>& Planet::getMoons() const {
 void Planet::setName(const std::string& newName)  {
 	if (newName.empty())
 	{
-		std::cerr << " Nem lehet ures a nev"; //codebro mondta hogy meno
+		std::invalid_argument( " Nem lehet ures a nev"); //codebro mondta hogy meno
 		return;
 	}
 	name = newName;//ures nev levedese
 }
 
 void Planet::setMass(double newMass) {
-	if (newMass <= 1.612e+24) {
-		std::cerr << "Nem lehet kisebb 1.612e+24 tomeg!";
+	const double MIN_MASS = 1.612e24;
+	if (newMass <= MIN_MASS) {
+		throw std::invalid_argument("A tomeg nem lehet kisebb mint " + std::to_string(MIN_MASS) + " kg");
 	}
 	mass = newMass;//tomeg lekezelese
 }
 
 void Planet::setRadius(double newRadius) {
 	if (newRadius < 200) {
-		std::cerr << "Nem lehet kissebb  mint 200km sugara a bolygonak!";
+		std::invalid_argument( "Nem lehet kissebb  mint 200km sugara a bolygonak!)";
 	}
 	radius = newRadius;// sugar lekezelese
 }
@@ -103,7 +99,7 @@ bool Planet::operator!=(const Planet& other) const {
 
 }
 
-//nagyon bena vagyok es igy tudom megoldani xddd
+//egyenlore csak igy megy
 
 Moon* Planet::findMoon(const std::string& moonName) const {
 	auto it = std::find_if(moons.begin(), moons.end(),
@@ -113,10 +109,7 @@ Moon* Planet::findMoon(const std::string& moonName) const {
 
 	return (it != moons.end()) ? it->get() : nullptr;
 }
-bool Planet::isMoonNameAvalible(const std::string& name)const {
-	return std::none_of(moons.begin(), moons.end(),
-		[&name](const auto& m) {return m->getName() == name; });
-}
+
 
 void Planet::addMoon(std::unique_ptr <Moon> moon) {
 	if (!moon) throw std::invalid_argument("Moon nem lehet NULL <ptr> ");
@@ -125,16 +118,53 @@ void Planet::addMoon(std::unique_ptr <Moon> moon) {
 		[&moon](const auto& m) {return m->getName() == moon->getName(); });
 
 	if (it != moons.end()) {
-		throw std::runtime_error("Ilyen nevu hold mar letezik");
+		throw std::runtime_error("Ezzel a nevvel mar letezik hold!");
 	}
 }
 
 void Planet::addMoon(const std::string& name, double mass, double radius, double distance) {
-	if (!(name)) {
-		throw std::runtime_error("Ezzel a nevvel mar letezik hold!");
+	
+	
+	if (name.empty()) {
+		throw std::invalid_argument("Nem lehet ures a hold neve!");
 	}
+
+	//nev formatum ellenorzes ezt felbovitettem hogy legyen - _ es ' '
+	auto isValidChar = [](char c) {
+		return std::isalnum(static_cast<unsigned char>(c)) ||
+			c == ' ' || c == '-' || c == '_';
+		};
+
+	if (!std::all_of(name.begin(), name.end(), isValidChar)) {
+		throw std::invalid_argument("A nev csak betuket, szamokat es szokozt tartalmazhat!");
+	}
+
+	//tobbi param ellenorzese
+	const double MIN_MASS = 1.612e24; // kg
+	const double MIN_RADIUS = 200.0; // km
+	if (mass <= MIN_MASS) {
+		throw std::invalid_argument("A tomeg legyen tobb mint: " + std::to_string(MIN_MASS));
+	}
+	if (radius < MIN_RADIUS) {
+		throw std::invalid_argument("A sugar legyen nagyobb mint: " + std::to_string(MIN_RADIUS));
+	}
+	//case sensitive fixing 
+	auto nameMatches = [&name](const std::unique_ptr<Moon>& m) {
+		const std::string& moonName = m->getName();
+		return moonName.size() == name.size() &&
+			std::equal(moonName.begin(), moonName.end(), name.begin(),
+				[](char a, char b) {
+					return std::tolower(a) == std::tolower(b);
+				});
+		};
+
+	if (std::any_of(moons.begin(), moons.end(), nameMatches)) {
+		throw std::logic_error("Mar letezik hold ezzel a nevvel: " + name);
+	}
+	//arra is kell figyelni hogy upper vagy lower case 
+
 	moons.push_back(std::make_unique < Moon >(name, mass, radius, distance));
-	// egyedi vektor letrehozas mert meno ;D
+	// uj hold hozza adasa a bolygohoz
 }
 //manualis hold hozzaadas 
 
@@ -148,13 +178,6 @@ bool Planet::removeMoon(const std::string& moonName) {
 	return false;
 }
 
-Moon* Planet::findMoon(const std::string& moonName)const {
-	auto it = std::find_if(moons.begin(), moons.end(),
-		[&moonName](const auto& m) {return m->getName() == moonName; });
-
-	return(it != moons.end()) ? it->get() : nullptr;
-}
-
 bool Planet::hasMoon(const std::string& moonName)const {
-	return findMoon(moonName) == nullptr;
+	return findMoon(moonName) != nullptr; // ha van akkor nem nullptr '
 }

@@ -61,7 +61,7 @@ public:
 	void addMoon(const std::string& name, double mass, double radius, double distance);
 	bool removeMoon(const std::string& moonName);
 	Moon* findMoon(const std::string& moonName) const;
-	bool isMoonNameAvailable(const std::string& name) const;
+	bool isMoonNameAvalible(const std::string& name) const;
 	bool hasMoon(const std::string& moonName) const;
 	size_t moonCount() const;
 	// nem nagyon jo ebben de ez van xddd
