@@ -48,8 +48,7 @@ const std::vector < std::unique_ptr < Moon >>& Planet::getMoons() const {
 void Planet::setName(const std::string& newName)  {
 	if (newName.empty())
 	{
-		std::invalid_argument( " Nem lehet ures a nev"); //codebro mondta hogy meno
-		return;
+		throw std::invalid_argument( " Nem lehet ures a nev"); //fancy
 	}
 	name = newName;//ures nev levedese
 }
@@ -64,14 +63,14 @@ void Planet::setMass(double newMass) {
 
 void Planet::setRadius(double newRadius) {
 	if (newRadius < 200) {
-		std::invalid_argument( "Nem lehet kissebb  mint 200km sugara a bolygonak!)";
+		throw std::invalid_argument( "Nem lehet kissebb  mint 200km sugara a bolygonak!)";
 	}
 	radius = newRadius;// sugar lekezelese
 }
 
 void Planet::setDistance(double newDist) {
 	if (newDist <= 0) {
-		std::cerr << "Nem lehet < 0 tavolsaga a holdnak!";
+		throw std::invalid_argument( "Nem lehet < 0 tavolsaga a holdnak!");
 	}
 	distance = newDist;// keringesi tav lekezelese
 }
@@ -85,7 +84,15 @@ void Planet::printData() const {
 
 }// kiiras fancy modon 
 
-//osszehasonlito operatorok 
+void Planet::printMoons() const {
+	std::cout << "Moons of " << name << ":\n";
+	for (const auto& moon : moons) {
+		moon->printData();
+		std::cout << "----------------\n";
+	}
+}
+
+//osszehasonlito es << operatorok 
 
 bool Planet::operator==(const Planet& other) const {
 	return name == other.name &&
@@ -99,27 +106,40 @@ bool Planet::operator!=(const Planet& other) const {
 
 }
 
-//egyenlore csak igy megy
+std::ostream& operator<<(std::ostream& os, const Planet& planet) {
+	os << "Planet: " << planet.name << " (Mass: " << planet.mass << " kg, Radius: "
+		<< planet.radius << " km, Distance: " << planet.distance << " million km)";
+	return os;
+}
+//nagyon bena vagyok es igy tudom megoldani xddd
 
+
+// holdakkal valo mokolasok 
 Moon* Planet::findMoon(const std::string& moonName) const {
 	auto it = std::find_if(moons.begin(), moons.end(),
 		[&moonName](const std::unique_ptr<Moon>& m) {
-			return m->getName() == moonName;
+			const std::string& storedName = m->getName();
+			return storedName.size() == moonName.size() &&
+				std::equal(storedName.begin(), storedName.end(), moonName.begin(),
+					[](char a, char b) { return std::tolower(a) == std::tolower(b); });
 		});
-
 	return (it != moons.end()) ? it->get() : nullptr;
-}
+}// felmasoltam a betu checkert 
 
+void Planet::addMoon(std::unique_ptr<Moon> moon) {
+	if (!moon) throw std::invalid_argument("Moon nem lehet NULL <ptr>");
 
-void Planet::addMoon(std::unique_ptr <Moon> moon) {
-	if (!moon) throw std::invalid_argument("Moon nem lehet NULL <ptr> ");
+	const double MIN_MASS = 1.612e24;
+	const double MIN_RADIUS = 200.0;
+	if (moon->getMass() <= MIN_MASS || moon->getRadius() < MIN_RADIUS) {
+		throw std::invalid_argument("Invalid moon properties");
+	}
 
-	auto it = std::find_if(moons.begin(), moons.end(),
-		[&moon](const auto& m) {return m->getName() == moon->getName(); });
-
-	if (it != moons.end()) {
+	if (findMoon(moon->getName())) {
 		throw std::runtime_error("Ezzel a nevvel mar letezik hold!");
 	}
+
+	moons.push_back(std::move(moon));
 }
 
 void Planet::addMoon(const std::string& name, double mass, double radius, double distance) {
@@ -170,7 +190,12 @@ void Planet::addMoon(const std::string& name, double mass, double radius, double
 
 bool Planet::removeMoon(const std::string& moonName) {
 	auto it = std::find_if(moons.begin(), moons.end(),
-		[&moonName](const auto& m) {return m->getName() == moonName; });
+		[&moonName](const auto& m) {
+			const std::string& storedName = m->getName();
+			return storedName.size() == moonName.size() &&
+				std::equal(storedName.begin(), storedName.end(), moonName.begin(),
+					[](char a, char b) { return std::tolower(a) == std::tolower(b); });
+		});
 	if (it != moons.end()) {
 		moons.erase(it);
 		return true;
