@@ -9,7 +9,7 @@
 #include <iomanip>    
 #include <stdexcept>   
 
-//helper 
+//helper vagy inkabb kiszervezes
 static bool caseInsensitiveCompare(const std::string& a, const std::string& b) {
 	return a.size() == b.size() &&
 		std::equal(a.begin(), a.end(), b.begin(),
