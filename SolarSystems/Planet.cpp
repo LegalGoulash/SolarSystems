@@ -63,7 +63,7 @@ void Planet::setMass(double newMass) {
 
 void Planet::setRadius(double newRadius) {
 	if (newRadius < 200) {
-		throw std::invalid_argument( "Nem lehet kissebb  mint 200km sugara a bolygonak!)";
+		throw std::invalid_argument( "Nem lehet kissebb  mint 200km sugara a bolygonak!");
 	}
 	radius = newRadius;// sugar lekezelese
 }

@@ -7,15 +7,15 @@
 #include<iostream>
 #include<iomanip>
 #include <algorithm>
-
+#include "Planet.h"
+#include "Moon.h"
 //alosztalyok berangatasa
-class Moon;
-class Planet;
+
 
 class Sun
 {
 private:
-	// oda kell figyelni 
+	// oda kell 
 	std::string name;
 	double mass; //kg ban
 	double radius; //km ben 
@@ -78,7 +78,11 @@ public:
 	Sun(Sun&&) = default;
 	Sun& operator=(Sun&&) = default;
 
-	static bool isValidSunNameChar(char c) {}
+	//seged fv k 
+	static bool caseInsensitiveCompare(const std::string& a, const std::string& b);
+	static bool isValidNameChar(char c);
+	void validatePlanetName(const std::string& name) const;
+	void validatePlanetParameters(double mass, double distance, double radius) const;
 };
 
 #endif // !SUN_H

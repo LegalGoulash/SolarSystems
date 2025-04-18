@@ -9,17 +9,40 @@
 #include <iomanip>    
 #include <stdexcept>   
 
-//helper vagy inkabb kiszervezes
-static bool caseInsensitiveCompare(const std::string& a, const std::string& b) {
+//seged fvk vagy inkabb kiszervezes
+
+bool Sun::caseInsensitiveCompare(const std::string& a, const std::string& b) {
 	return a.size() == b.size() &&
 		std::equal(a.begin(), a.end(), b.begin(),
 			[](char x, char y) { return std::tolower(x) == std::tolower(y); });
 }
-static bool isValidSunNameChar(char c) {
+bool Sun::isValidNameChar(char c) {
 	return std::isalnum(static_cast<unsigned char>(c)) ||
 		c == ' ' || c == '-' || c == '_' || c == '.';
 }
 
+void Sun::validatePlanetName(const std::string& name) const {
+	if (name.empty()) throw std::invalid_argument("Nev nem lehet ures");
+
+	for (char c : name) {
+		if (!isValidNameChar(c)) {
+			throw std::invalid_argument("Ervenytelen karakter: " + std::string(1, c));
+		}
+	}
+
+	if (std::any_of(planets.begin(), planets.end(),
+		[&name](const auto& planet) {
+			return caseInsensitiveCompare(planet->getName(), name);
+		})) {
+		throw std::invalid_argument("Mar letezo bolygo: " + name);
+	}
+}
+
+void Sun::validatePlanetParameters(double mass, double distance, double radius) const {
+	if (mass <= Planet::MIN_MASS) throw std::invalid_argument("Tomeg tul kicsi");
+	if (distance < 0) throw std::invalid_argument("Tavolsag nem lehet negativ");
+	if (radius <= Planet::MIN_RADIUS) throw std::invalid_argument("Sugar tul kicsi");
+}
 //konstruktor
 Sun::Sun(const std::string& name, double mass, double radius, double temperature)
 	: name(name), mass(mass), radius(radius), temperature(temperature) {
@@ -29,7 +52,7 @@ Sun::Sun(const std::string& name, double mass, double radius, double temperature
 		throw std::invalid_argument("A Nap neve nem lehet ures!");
 	}
 
-	if (!std::all_of(name.begin(), name.end(), isValidSunNameChar)) {
+	if (!std::all_of(name.begin(), name.end(), isValidNameChar)) {
 		throw std::invalid_argument("A nev csak betuket, szamokat, szokozt és speciális karaktereket (-_.) tartalmazhat!");
 	}
 
@@ -81,9 +104,13 @@ void Sun::setName(const std::string& newName)
 	{
 		throw std::invalid_argument("Nem lehet ures a nev");
 	}
+	for (char c : newName) {
+		if (!isValidNameChar(c)) {
+			throw std::invalid_argument("Ervenytelen karakter: " + std::string(1, c));
+		}
+	}
 	name = newName;
 }
-
 void Sun::setMass(double newMass)
 {
 	if (newMass < MIN_MASS) throw std::invalid_argument("Tul kicsi a tomeg! Minimum: " + std::to_string(MIN_MASS) + " kg");
@@ -102,7 +129,7 @@ void Sun::setRadius(double newRadius)
 void Sun::setTemperature(double newTemp)
 {
 	if (newTemp < MIN_TEMP) {
-		throw std::invalid_argument("A homerseklet tavolsag nem lehet kevesebb mint:" + std::to_string(MIN_TEMP) + "K");
+		throw std::invalid_argument("A homerseklet nem lehet alacsonyabb mint: " + std::to_string(MIN_TEMP) + " K");
 	}
 	temperature = newTemp;
 }
@@ -111,17 +138,21 @@ void Sun::addPlanet(std::unique_ptr<Planet> planet) {
 	if (!planet) throw std::invalid_argument("Planet nem lehet NULL ptr!");
 
 	// nev
-	if (findPlanet(planet->getName())) {
-		throw std::invalid_argument("A bolygo mar letezik: " + planet->getName());
-	}
-
-	// parameterek
-	if (planet->getMass() <= MIN_MASS || planet->getRadius() <= MIN_RADIUS) {
-		throw std::invalid_argument("Invalid planet properties!");
-	}
+	validatePlanetName(planet->getName());
+	validatePlanetParameters(planet->getMass(), planet->getDistance(), planet->getRadius());
 
 	planets.push_back(std::move(planet));
 }
+
+void Sun::addPlanet(const std::string& name, double mass, double distance, double radius)
+{
+	validatePlanetName(name);
+	validatePlanetParameters(mass, radius, distance);
+
+	planets.push_back(std::make_unique<Planet>(name, mass, distance, radius));
+}
+
+
 
 bool Sun::removePlanet(const std::string& planetName) {
 	auto it = std::find_if(planets.begin(), planets.end(),

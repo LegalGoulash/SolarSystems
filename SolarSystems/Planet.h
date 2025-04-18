@@ -19,6 +19,10 @@ private:
 	double radius; //km ben
 	std::vector<std::unique_ptr<Moon>> moons; //holdakat tartalmaazo vektor
 public:
+
+	static constexpr double MIN_MASS = 1.612e24;
+	static constexpr double MIN_RADIUS = 200.0;
+
 	Planet(const std::string& name ="Nevtelen Bolygo", double mass= 1.612e+24, double distance=0.0, double radius= 199.999);
 	
 	
@@ -28,7 +32,7 @@ public:
 	double getMass() const;
 	double getRadius() const;
 	double getDistance() const;
-	const std::vector<std::unique_ptr<Moon>>& getMoons() const {return moons; } // holdak kiirasa (v2 ) 
+	const std::vector<std::unique_ptr<Moon>>& getMoons() const; // holdak kiirasa (v2 ) 
 
 	//setter fv.k 
 
