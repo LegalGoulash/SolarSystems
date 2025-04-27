@@ -19,7 +19,7 @@ private:
 	void validateSunName(const std::string& name) const;
 	void validateSunParameters(double mass, double radius, double temp) const;
 public:
-	Galaxy(const std::string& name = "Ismeretlen galaxis");
+	Galaxy(const std::string& name );
 
 	//getterek
 	const std::string& getName() const;

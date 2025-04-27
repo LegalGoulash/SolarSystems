@@ -1,5 +1,5 @@
 #ifndef SOLAR_SYSTEM_LOADER_H
-#define SOLOAR_SYSTEM_LOADER_H
+#define SOLAR_SYSTEM_LOADER_H
 
 #include "Galaxy.h"
 #include <memory>

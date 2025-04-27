@@ -38,14 +38,14 @@ void Galaxy::validateSunParameters(double mass, double radius, double temp) cons
 }
 //konstruktor
 
-Galaxy::Galaxy(const std::string& name)
-	: name(name) {
-	// nev check
-	if (name.empty()) {
-		std::cout << "A galaxis neve ures, a neve :Ismeretlen Galaxis lesz!";
+
+Galaxy::Galaxy(const std::string& name) : name(name.empty() ? "Ismeretlen Galaxis" : name) {
+	for (char c : this->name) {
+		if (!isValidGalaxyNameChar(c)) {
+			throw std::invalid_argument("Ervenytelen karakter a galaxis neveben: " + std::string(1, c));
+		}
 	}
 }
-
 //getterek
 const std::string& Galaxy::getName() const
 {

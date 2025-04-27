@@ -111,7 +111,7 @@ std::ostream& operator<<(std::ostream& os, const Planet& planet) {
 		<< planet.radius << " km, Distance: " << planet.distance << " million km)";
 	return os;
 }
-//nagyon bena vagyok es igy tudom megoldani xddd
+// bena vagyok es igy tudom megoldani 
 
 
 // holdakkal valo mokolasok 
