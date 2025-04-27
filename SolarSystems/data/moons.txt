@@ -1,0 +1,21 @@
+"Sol" "Earth" "Moon" 7.342e22 384400 1737.4
+"Sol" "Mars" "Phobos" 1.0659e16 9376 11.08
+"Sol" "Mars" "Deimos" 1.4762e15 23463 6.2
+"Sol" "Jupiter" "Io" 8.9319e22 421700 1821.6
+"Sol" "Jupiter" "Europa" 4.7998e22 670900 1560.8
+"Sol" "Jupiter" "Ganymede" 1.4819e23 1070400 2634.1
+"Sol" "Jupiter" "Callisto" 1.0759e23 1882700 2410.3
+"Sol" "Saturn" "Mimas" 3.7493e19 185520 198.2
+"Sol" "Saturn" "Enceladus" 1.0802e20 237948 252.1
+"Sol" "Saturn" "Tethys" 6.1745e20 294619 531.1
+"Sol" "Saturn" "Dione" 1.0955e21 377396 561.4
+"Sol" "Saturn" "Rhea" 2.3065e21 527108 763.8
+"Sol" "Saturn" "Titan" 1.3452e23 1221870 2574.7
+"Sol" "Uranus" "Miranda" 6.59e19 129390 235.8
+"Sol" "Uranus" "Ariel" 1.353e21 191020 578.9
+"Sol" "Uranus" "Umbriel" 1.172e21 266300 584.7
+"Sol" "Uranus" "Titania" 3.526e21 435910 788.9
+"Sol" "Uranus" "Oberon" 3.014e21 583520 761.4
+"Sol" "Neptune" "Triton" 2.14e22 354759 1353.4
+"Sol" "Neptune" "Proteus" 4.4e19 117647 210.0
+"Alpha Centauri A" "Proxima Centauri b" "Artemis" 1.5e21 50000 350.0

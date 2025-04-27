@@ -13,7 +13,7 @@ private:
     double distance;
 
 public:
-    static constexpr double MIN_MASS = 1.612e24;  // kg
+    static constexpr double MIN_MOON_MASS = 1.4762e15;  // kg
     static constexpr double MIN_RADIUS = 200.0;   // km
 
     Moon(const std::string& name, double mass, double radius, double distance);

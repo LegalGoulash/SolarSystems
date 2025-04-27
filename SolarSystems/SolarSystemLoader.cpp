@@ -61,18 +61,32 @@ std::unique_ptr<Galaxy> SolarSystemLoader::loadGalaxy(const std::string& sunFile
 {
     auto galaxy = std::make_unique<Galaxy>("Betoltott Galaxis");
 
-    // NAPOK
+    // NAPOK 
     std::ifstream sunStream(sunFile);
-    if (!sunStream) throw std::runtime_error("Nem sikerult megnyitni a napok fajljat");
+    if (!sunStream) {
+        throw std::runtime_error("Napok fajl nem talalhato: " + sunFile +
+            "\nGyozodj meg rola, hogy a fajl a 'data' mappaban van!");
+    }
     loadSuns(sunStream, *galaxy);
 
-    // BOLYGOK
+    // BOLYGOK figyelmeztetunk ha nem talalhato
     std::ifstream planetStream(planetFile);
-    if (planetStream) loadPlanets(planetStream, *galaxy);
+    if (!planetStream) {
+        std::cerr << "Figyelmeztetes: Bolygok fajl nem talalhato: " << planetFile << "\n";
+    }
+    else {
+        loadPlanets(planetStream, *galaxy);
+    }
 
-    // HOLDAK
+
+    // HOLDAK 
     std::ifstream moonStream(moonFile);
-    if (moonStream) loadMoons(moonStream, *galaxy);
+    if (!moonStream) {
+        std::cerr << "Figyelmeztetes: Holdak fajl nem talalhato: " << moonFile << "\n";
+    }
+    else {
+        loadMoons(moonStream, *galaxy);
+    }
 
     return galaxy;
 }

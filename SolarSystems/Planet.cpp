@@ -10,11 +10,11 @@ Planet::Planet(const std::string& name, double mass, double distance, double rad
 	if (name.empty()) throw std::invalid_argument("Nem lehet ures a nev!");
 
 	// Tömeg validálása (minimum Földtömeg 27%-a)
-	const double MIN_MASS = 1.612e24; // kg
-	if (mass < MIN_MASS) throw std::invalid_argument("Tul kicsi a tomeg! Minimum: " + std::to_string(MIN_MASS) + " kg");
+
+	if (mass < MIN_PLANET_MASS) throw std::invalid_argument("Tul kicsi a tomeg! Minimum: " + std::to_string(MIN_PLANET_MASS) + " kg");
 
 	// Sugár validálása (minimum 200 km)
-	const double MIN_RADIUS = 200.0; // km
+
 	if (radius < MIN_RADIUS) throw std::invalid_argument("Tul kicsi a sugar! Minimum: " + std::to_string(MIN_RADIUS) + " km");
 
 	// Távolság validálása (nem negatív)
@@ -54,9 +54,9 @@ void Planet::setName(const std::string& newName)  {
 }
 
 void Planet::setMass(double newMass) {
-	const double MIN_MASS = 1.612e24;
-	if (newMass <= MIN_MASS) {
-		throw std::invalid_argument("A tomeg nem lehet kisebb mint " + std::to_string(MIN_MASS) + " kg");
+
+	if (newMass <= MIN_PLANET_MASS) {
+		throw std::invalid_argument("A tomeg nem lehet kisebb mint " + std::to_string(MIN_PLANET_MASS) + " kg");
 	}
 	mass = newMass;//tomeg lekezelese
 }
@@ -129,9 +129,8 @@ Moon* Planet::findMoon(const std::string& moonName) const {
 void Planet::addMoon(std::unique_ptr<Moon> moon) {
 	if (!moon) throw std::invalid_argument("Moon nem lehet NULL <ptr>");
 
-	const double MIN_MASS = 1.612e24;
-	const double MIN_RADIUS = 200.0;
-	if (moon->getMass() <= MIN_MASS || moon->getRadius() < MIN_RADIUS) {
+
+	if (moon->getMass() <= moon->MIN_MOON_MASS || moon->getRadius() < MIN_RADIUS) {
 		throw std::invalid_argument("Invalid moon properties");
 	}
 
@@ -160,10 +159,9 @@ void Planet::addMoon(const std::string& name, double mass, double radius, double
 	}
 
 	//tobbi param ellenorzese
-	const double MIN_MASS = 1.612e24; // kg
-	const double MIN_RADIUS = 200.0; // km
-	if (mass <= MIN_MASS) {
-		throw std::invalid_argument("A tomeg legyen tobb mint: " + std::to_string(MIN_MASS));
+
+	if (mass < Moon::MIN_MOON_MASS) {
+		throw std::invalid_argument("A tomeg legyen tobb mint: " + std::to_string(Moon::MIN_MOON_MASS)+" kg");
 	}
 	if (radius < MIN_RADIUS) {
 		throw std::invalid_argument("A sugar legyen nagyobb mint: " + std::to_string(MIN_RADIUS));

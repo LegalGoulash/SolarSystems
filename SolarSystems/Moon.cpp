@@ -10,8 +10,8 @@ Moon::Moon(const std::string& name, double mass, double radius, double distance)
 	if (name.empty()) {
 		throw std::invalid_argument("A nev nem lehet ures!");
 	}
-	if (mass < MIN_MASS) {
-		throw std::invalid_argument("Tul kicsi a tomeg! Minimum: " + std::to_string(MIN_MASS) + " kg");
+	if (mass < MIN_MOON_MASS) {
+		throw std::invalid_argument("Tul kicsi a tomeg! Minimum: " + std::to_string(MIN_MOON_MASS) + " kg");
 	}
 	if (radius < MIN_RADIUS) {
 		throw std::invalid_argument("Tul kicsi a sugar! Minimum: " + std::to_string(MIN_RADIUS) + " km");
@@ -49,8 +49,8 @@ void Moon::setName(const std::string& newName) {
 }
 
 void Moon::setMass(double newMass) {
-	if (newMass <= MIN_MASS) {
-		throw std::invalid_argument("A tomeg nem lehet kisebb mint " + std::to_string(MIN_MASS) + " kg");
+	if (newMass <= MIN_MOON_MASS) {
+		throw std::invalid_argument("A tomeg nem lehet kisebb mint " + std::to_string(MIN_MOON_MASS) + " kg");
 	}
 	mass = newMass;//tomeg lekezelese
 }

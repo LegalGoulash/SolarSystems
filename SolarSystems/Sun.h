@@ -26,7 +26,7 @@ private:
 
 public:
 	//konst ok 
-	static constexpr double MIN_MASS = 1.9884e30; //kg
+	static constexpr double MIN_MASS = 1.9884e28; //kg
 	static constexpr double MIN_RADIUS = 695700.0; //km
 	static constexpr double MIN_TEMP = 4100.0; // kelvin
 	//konstruktorok

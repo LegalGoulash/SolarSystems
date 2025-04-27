@@ -20,10 +20,11 @@ private:
 	std::vector<std::unique_ptr<Moon>> moons; //holdakat tartalmaazo vektor
 public:
 
-	static constexpr double MIN_MASS = 1.612e24;
+	static constexpr double MIN_PLANET_MASS = 1.612e20;
 	static constexpr double MIN_RADIUS = 200.0;
+	static constexpr double MIN_DISTANCE = 1.0e12;
 
-	Planet(const std::string& name ="Nevtelen Bolygo", double mass= 1.612e+24, double distance=0.0, double radius= 199.999);
+	Planet(const std::string& name ="Nevtelen Bolygo", double mass =MIN_PLANET_MASS, double distance=MIN_DISTANCE, double radius= MIN_RADIUS);
 	
 	
 

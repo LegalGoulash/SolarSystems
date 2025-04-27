@@ -3,7 +3,8 @@
 #include <iostream>
 #include <limits>
 #include <memory>
-
+#include <filesystem>
+namespace fs = std::filesystem;
 using namespace std;
 
 void displayMainMenu();
@@ -15,7 +16,7 @@ void displayGalaxy(const Galaxy& galaxy);
 int main() {
     unique_ptr<Galaxy> galaxy;
     int choice;
-
+    cout << "Jelenlegi munkakonyvtar: " << fs::current_path() << endl;
     do {
         displayMainMenu();
         cin >> choice;
@@ -32,16 +33,35 @@ int main() {
                 break;
             }
             case 2: { // Galaxis betoltese fajlbol
-                string sunFile, planetFile, moonFile;
-                cout << "Napok fajlneve: ";
-                getline(cin, sunFile);
-                cout << "Bolygok fajlneve: ";
-                getline(cin, planetFile);
-                cout << "Holdak fajlneve: ";
-                getline(cin, moonFile);
+                // Alapértelmezett fajlnevek
+                fs::path dataDir = "data";
+                fs::path sunFile = dataDir / "suns.txt";
+                fs::path planetFile = dataDir / "planets.txt";
+                fs::path moonFile = dataDir / "moons.txt";
 
-                galaxy = SolarSystemLoader::loadGalaxy(sunFile, planetFile, moonFile);
-                cout << "Galaxis sikeresen betoltve!\n";
+                // letezik e a data mappa
+                if (!fs::exists(dataDir)) {
+                    cout << "A 'data' mappa nem talalhato! Letrehozom...\n";
+                    fs::create_directory(dataDir);
+                }
+
+                // felhasznalo altal megadott fejlnevek
+                cout << "Napok fajlneve (alap: " << sunFile << "): ";
+                string customSun;
+                getline(cin, customSun);
+                if (!customSun.empty()) sunFile = customSun;
+
+                cout << "Bolygok fajlneve (alap: " << planetFile << "): ";
+                string customPlanet;
+                getline(cin, customPlanet);
+                if (!customPlanet.empty()) planetFile = customPlanet;
+
+                cout << "Holdak fajlneve (alap: " << moonFile << "): ";
+                string customMoon;
+                getline(cin, customMoon);
+                if (!customMoon.empty()) moonFile = customMoon;
+
+                galaxy = SolarSystemLoader::loadGalaxy(sunFile.string(), planetFile.string(), moonFile.string());
                 break;
             }
             case 3: { // Galaxis mentese fajlba
@@ -137,7 +157,7 @@ void handleGalaxyMenu(Galaxy& galaxy) {
                 string name;
                 double mass, radius, temp;
 
-                cout << "Nap neve: ";
+                cout << "\nNap neve: ";
                 getline(cin, name);
                 cout << "Tomeg (kg): ";
                 cin >> mass;

@@ -39,7 +39,7 @@ void Sun::validatePlanetName(const std::string& name) const {
 }
 
 void Sun::validatePlanetParameters(double mass, double distance, double radius) const {
-	if (mass <= Planet::MIN_MASS) throw std::invalid_argument("Tomeg tul kicsi");
+	if (mass <= Planet::MIN_PLANET_MASS) throw std::invalid_argument("Tomeg tul kicsi");
 	if (distance < 0) throw std::invalid_argument("Tavolsag nem lehet negativ");
 	if (radius <= Planet::MIN_RADIUS) throw std::invalid_argument("Sugar tul kicsi");
 }
