@@ -65,6 +65,7 @@ public:
 	bool removeMoon(const std::string& moonName);
 	Moon* findMoon(const std::string& moonName) const;
 	bool hasMoon(const std::string& moonName) const;
+	void  operator+=(std::unique_ptr<Moon> moon);
 	size_t moonCount() const;
 	// nem nagyon jo ebben de ez van xddd
 

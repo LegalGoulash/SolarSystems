@@ -205,6 +205,22 @@ bool Planet::hasMoon(const std::string& moonName)const {
 	return findMoon(moonName) != nullptr; // ha van akkor nem nullptr '
 }
 
+void Planet::operator+=(std::unique_ptr<Moon> moon)
+{
+	if (!moon) throw std::invalid_argument("Moon nem lehet NULL <ptr>");
+
+
+	if (moon->getMass() <= moon->MIN_MOON_MASS || moon->getRadius() < MIN_RADIUS) {
+		throw std::invalid_argument("Invalid moon properties");
+	}
+
+	if (findMoon(moon->getName())) {
+		throw std::runtime_error("Ezzel a nevvel mar letezik hold!");
+	}
+
+	moons.push_back(std::move(moon));
+}
+
 size_t Planet::moonCount() const
 {
 	return moons.size();

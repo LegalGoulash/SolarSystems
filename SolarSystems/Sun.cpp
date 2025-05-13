@@ -180,6 +180,15 @@ bool Sun::hasPlanet(const std::string& name) const
 	return findPlanet(name) != nullptr;
 }
 
+void Sun::operator+=(std::unique_ptr<Planet> planet)
+{
+	if (!planet) throw std::invalid_argument("Planet nem lehet NULL ptr!");
+	// nev
+	validatePlanetName(planet->getName());
+	validatePlanetParameters(planet->getMass(), planet->getDistance(), planet->getRadius());
+	planets.push_back(std::move(planet));
+}
+
 size_t Sun::planetCount() const
 {
 	return planets.size();

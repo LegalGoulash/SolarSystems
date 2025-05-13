@@ -57,6 +57,7 @@ public:
 	Planet* findPlanet(const std::string& name) const;
 
 	bool hasPlanet(const std::string& name) const; //fv arra hogy van e ilyen 
+	void operator+=(std::unique_ptr<Planet> planet); //bolygo hozzaadasa a naphoz
 
 	size_t planetCount() const; // egyszeruen hany bolygoja van 
 
