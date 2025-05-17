@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Galaxy.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Moon.cpp" />
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="SolarSystemLoader.cpp" />
@@ -137,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Galaxy.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Moon.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="SolarSystemLoader.h" />
