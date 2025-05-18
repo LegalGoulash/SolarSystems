@@ -3,5 +3,5 @@
 int main() {
     Menu::runMainMenu();
     return 0;
-}//ezt fejdsd meg ;D
+}//a menu meghivasa
 
