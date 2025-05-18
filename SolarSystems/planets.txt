@@ -1,0 +1,9 @@
+"Sol" "Mercury" 3.3011e+23 5.791e+07 2439.7
+"Sol" "Venus" 4.8675e+240 1.082e+08 6051.8
+"Sol" "Earth" 5.97237e+24 1.496e+08 6371
+"Sol" "Mars" 6.4171e+23 2.279e+08 3389.5
+"Sol" "Jupiter" 1.8982e+27 7.783e+08 69911
+"Sol" "Saturn" 5.6834e+26 1.427e+09 58232
+"Sol" "Uranus" 8.681e+25 2.871e+09 25362
+"Sol" "Neptune" 1.0241e+26 4.498e+09 24622
+"Alpha Centauri A" "Proxima Centauri b" 7e+24 7e+06 8000

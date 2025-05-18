@@ -60,8 +60,7 @@ void Menu::runMainMenu() {
             }
             case 3: { // Galaxis mentese fajlba
                 if (!galaxy) {
-                    cout << "Nincs betoltott galaxis!\n";
-                    break;
+                    throw invalid_argument( "Nincs betoltott galaxis!\n");
                 }
                 string sunFile, planetFile, moonFile;
                 cout << "Napok fajlneve: ";
@@ -75,22 +74,20 @@ void Menu::runMainMenu() {
                     cout << "Galaxis sikeresen elmentve!\n";
                 }
                 else {
-                    cout << "Hiba tortent a mentes soran!\n";
+                    throw invalid_argument( "Hiba tortent a mentes soran!\n");
                 }
                 break;
             }
             case 4: { // Galaxis kezelese
                 if (!galaxy) {
-                    cout << "Nincs betoltott galaxis!\n";
-                    break;
+                    throw invalid_argument( "Nincs betoltott galaxis!\n");
                 }
                 handleGalaxyMenu(*galaxy);
                 break;
             }
             case 5: { // Galaxis megjelenitese
                 if (!galaxy) {
-                    cout << "Nincs betoltott galaxis!\n";
-                    break;
+                    throw invalid_argument( "Nincs betoltott galaxis!\n");
                 }
                 displayGalaxy(*galaxy);
                 break;
@@ -99,7 +96,7 @@ void Menu::runMainMenu() {
                 cout << "Kilepes...\n";
                 break;
             default:
-                cout << "Ervenytelen valasztas!\n";
+                throw invalid_argument( "Ervenytelen valasztas!\n");
             }
         }
         catch (const exception& e) {
@@ -172,7 +169,7 @@ void Menu::handleGalaxyMenu(Galaxy& galaxy) {
                     cout << "Nap sikeresen eltavolitva!\n";
                 }
                 else {
-                    cout << "Nem talalhato ilyen nevu nap!\n";
+                    throw invalid_argument( "Nem talalhato ilyen nevu nap!\n");
                 }
                 break;
             }
@@ -186,7 +183,7 @@ void Menu::handleGalaxyMenu(Galaxy& galaxy) {
                     handleSunMenu(*sun);
                 }
                 else {
-                    cout << "Nem talalhato ilyen nevu nap!\n";
+                    throw invalid_argument ("Nem talalhato ilyen nevu nap!\n");
                 }
                 break;
             }
@@ -196,7 +193,7 @@ void Menu::handleGalaxyMenu(Galaxy& galaxy) {
             case 0: // Vissza
                 break;
             default:
-                cout << "Ervenytelen valasztas!\n";
+                throw invalid_argument( "Ervenytelen valasztas!\n");
             }
         }
         catch (const exception& e) {
@@ -270,7 +267,7 @@ void Menu::handleSunMenu(Sun& sun) {
                     cout << "Bolygo sikeresen eltavolitva!\n";
                 }
                 else {
-                    cout << "Nem talalhato ilyen nevu bolygo!\n";
+                    throw invalid_argument( "Nem talalhato ilyen nevu bolygo!\n");
                 }
                 break;
             }
@@ -284,7 +281,7 @@ void Menu::handleSunMenu(Sun& sun) {
                     handlePlanetMenu(*planet);
                 }
                 else {
-                    cout << "Nem talalhato ilyen nevu bolygo!\n";
+                    throw invalid_argument( "Nem talalhato ilyen nevu bolygo!\n");
                 }
                 break;
             }
@@ -294,7 +291,7 @@ void Menu::handleSunMenu(Sun& sun) {
             case 0: // Vissza
                 break;
             default:
-                cout << "Ervenytelen valasztas!\n";
+                throw invalid_argument( "Ervenytelen valasztas!\n");
             }
         }
         catch (const exception& e) {
@@ -367,7 +364,7 @@ void Menu::handlePlanetMenu(Planet& planet) {
                     cout << "Hold sikeresen eltavolitva!\n";
                 }
                 else {
-                    cout << "Nem talalhato ilyen nevu hold!\n";
+                    throw invalid_argument( "Nem talalhato ilyen nevu hold!\n");
                 }
                 break;
             }
@@ -377,7 +374,7 @@ void Menu::handlePlanetMenu(Planet& planet) {
             case 0: // Vissza
                 break;
             default:
-                cout << "Ervenytelen valasztas!\n";
+                throw invalid_argument( "Ervenytelen valasztas!\n");
             }
         }
         catch (const exception& e) {
