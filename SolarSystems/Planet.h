@@ -55,8 +55,8 @@ public:
 	~Planet() = default;
 	Planet(Planet&&) = default;
 	Planet& operator=(Planet&&) = default;
-	Planet(const Planet&) = default;
-	Planet& operator=(const Planet&) = default;
+	Planet(const Planet&) = delete;
+	Planet& operator=(const Planet&) = delete;
 
 
 	//Holdal valo izek
