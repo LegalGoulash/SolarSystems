@@ -27,19 +27,36 @@ void Menu::runMainMenu() {
                 break;
             }
             case 2: { // Galaxis betoltese fajlbol
-                // Alapértelmezett fajlnevek
+                // Alapertekelt mappa es fajlnevek
                 fs::path dataDir = "data";
                 fs::path sunFile = dataDir / "suns.txt";
                 fs::path planetFile = dataDir / "planets.txt";
                 fs::path moonFile = dataDir / "moons.txt";
 
-                // letezik e a data mappa
+                // Letezik-e a data mappa
                 if (!fs::exists(dataDir)) {
                     cout << "A 'data' mappa nem talalhato! Letrehozom...\n";
                     fs::create_directory(dataDir);
                 }
 
-                // felhasznalo altal megadott fejlnevek
+                // Ha az alapertekelt fajlok nem leteznek, letrehozzuk uresen
+                if (!fs::exists(sunFile)) {
+                    ofstream out(sunFile);
+                    out.close();
+                    cout << "Letrehoztam az alap suns.txt fajlt.\n";
+                }
+                if (!fs::exists(planetFile)) {
+                    ofstream out(planetFile);
+                    out.close();
+                    cout << "Letrehoztam az alap planets.txt fajlt.\n";
+                }
+                if (!fs::exists(moonFile)) {
+                    ofstream out(moonFile);
+                    out.close();
+                    cout << "Letrehoztam az alap moons.txt fajlt.\n";
+                }
+
+                // Felhasznalo altal megadott fajlnevek
                 cout << "Napok fajlneve (alap: " << sunFile << "): ";
                 string customSun;
                 getline(cin, customSun);
@@ -60,34 +77,56 @@ void Menu::runMainMenu() {
             }
             case 3: { // Galaxis mentese fajlba
                 if (!galaxy) {
-                    throw invalid_argument( "Nincs betoltott galaxis!\n");
+                    throw invalid_argument("Nincs betoltott galaxis!\n");
                 }
+
+                // Alapertekelt mappa es fajlnevek
+                fs::path dataDir = "data";
+                fs::path defaultSun = dataDir / "suns.txt";
+                fs::path defaultPlanet = dataDir / "planets.txt";
+                fs::path defaultMoon = dataDir / "moons.txt";
+
+                // Letezik-e a data mappa
+                if (!fs::exists(dataDir)) {
+                    cout << "A 'data' mappa nem talalhato! Letrehozom...\n";
+                    fs::create_directory(dataDir);
+                }
+
                 string sunFile, planetFile, moonFile;
-                cout << "Napok fajlneve: ";
+
+                cout << "Napok fajlneve (alap: " << defaultSun << "): ";
                 getline(cin, sunFile);
-                cout << "Bolygok fajlneve: ";
+                if (sunFile.empty()) sunFile = defaultSun.string();
+
+                cout << "Bolygok fajlneve (alap: " << defaultPlanet << "): ";
                 getline(cin, planetFile);
-                cout << "Holdak fajlneve: ";
+                if (planetFile.empty()) planetFile = defaultPlanet.string();
+
+                cout << "Holdak fajlneve (alap: " << defaultMoon << "): ";
                 getline(cin, moonFile);
+                if (moonFile.empty()) moonFile = defaultMoon.string();
 
                 if (SolarSystemLoader::SaveGalaxy(*galaxy, sunFile, planetFile, moonFile)) {
-                    cout << "Galaxis sikeresen elmentve!\n";
+                    cout << "Galaxis sikeresen elmentve a kovetkezo fajlokba:\n"
+                        << "- Napok: " << sunFile << "\n"
+                        << "- Bolygok: " << planetFile << "\n"
+                        << "- Holdak: " << moonFile << "\n";
                 }
                 else {
-                    throw invalid_argument( "Hiba tortent a mentes soran!\n");
+                    throw invalid_argument("Hiba tortent a mentes soran!\n");
                 }
                 break;
             }
             case 4: { // Galaxis kezelese
                 if (!galaxy) {
-                    throw invalid_argument( "Nincs betoltott galaxis!\n");
+                    throw invalid_argument("Nincs betoltott galaxis!\n");
                 }
                 handleGalaxyMenu(*galaxy);
                 break;
             }
             case 5: { // Galaxis megjelenitese
                 if (!galaxy) {
-                    throw invalid_argument( "Nincs betoltott galaxis!\n");
+                    throw invalid_argument("Nincs betoltott galaxis!\n");
                 }
                 displayGalaxy(*galaxy);
                 break;
@@ -96,7 +135,7 @@ void Menu::runMainMenu() {
                 cout << "Kilepes...\n";
                 break;
             default:
-                throw invalid_argument( "Ervenytelen valasztas!\n");
+                throw invalid_argument("Ervenytelen valasztas!\n");
             }
         }
         catch (const exception& e) {
@@ -169,7 +208,7 @@ void Menu::handleGalaxyMenu(Galaxy& galaxy) {
                     cout << "Nap sikeresen eltavolitva!\n";
                 }
                 else {
-                    throw invalid_argument( "Nem talalhato ilyen nevu nap!\n");
+                    throw invalid_argument("Nem talalhato ilyen nevu nap!\n");
                 }
                 break;
             }
@@ -183,7 +222,7 @@ void Menu::handleGalaxyMenu(Galaxy& galaxy) {
                     handleSunMenu(*sun);
                 }
                 else {
-                    throw invalid_argument ("Nem talalhato ilyen nevu nap!\n");
+                    throw invalid_argument("Nem talalhato ilyen nevu nap!\n");
                 }
                 break;
             }
@@ -193,7 +232,7 @@ void Menu::handleGalaxyMenu(Galaxy& galaxy) {
             case 0: // Vissza
                 break;
             default:
-                throw invalid_argument( "Ervenytelen valasztas!\n");
+                throw invalid_argument("Ervenytelen valasztas!\n");
             }
         }
         catch (const exception& e) {
@@ -267,7 +306,7 @@ void Menu::handleSunMenu(Sun& sun) {
                     cout << "Bolygo sikeresen eltavolitva!\n";
                 }
                 else {
-                    throw invalid_argument( "Nem talalhato ilyen nevu bolygo!\n");
+                    throw invalid_argument("Nem talalhato ilyen nevu bolygo!\n");
                 }
                 break;
             }
@@ -281,7 +320,7 @@ void Menu::handleSunMenu(Sun& sun) {
                     handlePlanetMenu(*planet);
                 }
                 else {
-                    throw invalid_argument( "Nem talalhato ilyen nevu bolygo!\n");
+                    throw invalid_argument("Nem talalhato ilyen nevu bolygo!\n");
                 }
                 break;
             }
@@ -291,7 +330,7 @@ void Menu::handleSunMenu(Sun& sun) {
             case 0: // Vissza
                 break;
             default:
-                throw invalid_argument( "Ervenytelen valasztas!\n");
+                throw invalid_argument("Ervenytelen valasztas!\n");
             }
         }
         catch (const exception& e) {
@@ -364,7 +403,7 @@ void Menu::handlePlanetMenu(Planet& planet) {
                     cout << "Hold sikeresen eltavolitva!\n";
                 }
                 else {
-                    throw invalid_argument( "Nem talalhato ilyen nevu hold!\n");
+                    throw invalid_argument("Nem talalhato ilyen nevu hold!\n");
                 }
                 break;
             }
@@ -374,7 +413,7 @@ void Menu::handlePlanetMenu(Planet& planet) {
             case 0: // Vissza
                 break;
             default:
-                throw invalid_argument( "Ervenytelen valasztas!\n");
+                throw invalid_argument("Ervenytelen valasztas!\n");
             }
         }
         catch (const exception& e) {
