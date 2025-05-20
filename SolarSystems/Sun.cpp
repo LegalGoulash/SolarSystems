@@ -14,9 +14,9 @@
 bool Sun::caseInsensitiveCompare(const std::string& a, const std::string& b) {
 	return a.size() == b.size() &&
 		std::equal(a.begin(), a.end(), b.begin(),
-			[](char x, char y) { return std::tolower(x) == std::tolower(y); });
+			[](char x, char y) { return std::tolower(x) == std::tolower(y); });//varazs lambda
 }
-bool Sun::isValidNameChar(char c) {
+bool Sun::isValidNameChar(char c) {//spec karakterek ellenorzese
 	return std::isalnum(static_cast<unsigned char>(c)) ||
 		c == ' ' || c == '-' || c == '_' || c == '.';
 }
@@ -38,7 +38,7 @@ void Sun::validatePlanetName(const std::string& name) const {
 	}
 }
 
-void Sun::validatePlanetParameters(double mass, double distance, double radius) const {
+void Sun::validatePlanetParameters(double mass, double distance, double radius) const {//ellenorzese a bolygo parametereknek
 	if (mass <= Planet::MIN_PLANET_MASS) throw std::invalid_argument("Tomeg tul kicsi");
 	if (distance < 0) throw std::invalid_argument("Tavolsag nem lehet negativ");
 	if (radius <= Planet::MIN_RADIUS) throw std::invalid_argument("Sugar tul kicsi");
@@ -133,7 +133,7 @@ void Sun::setTemperature(double newTemp)
 	}
 	temperature = newTemp;
 }
-// bojgoval mokolas
+// bojgoval mokolas es szerkesztes
 void Sun::addPlanet(std::unique_ptr<Planet> planet) {
 	if (!planet) throw std::invalid_argument("Planet nem lehet NULL ptr!");
 
@@ -153,7 +153,7 @@ void Sun::addPlanet(const std::string& name, double mass, double distance, doubl
 }
 
 
-
+//bolygo eltavolitasa
 bool Sun::removePlanet(const std::string& planetName) {
 	auto it = std::find_if(planets.begin(), planets.end(),
 		[&planetName](const auto& planet) {
@@ -166,7 +166,7 @@ bool Sun::removePlanet(const std::string& planetName) {
 	}
 	return false;
 }
-
+//bolygo kezelese
 Planet* Sun::findPlanet(const std::string& planetName) const {
 	auto it = std::find_if(planets.begin(), planets.end(),
 		[&planetName](const std::unique_ptr<Planet>& planet) {
@@ -179,7 +179,7 @@ bool Sun::hasPlanet(const std::string& name) const
 {
 	return findPlanet(name) != nullptr;
 }
-
+//hozzadas op (tanari keresre)
 void Sun::operator+=(std::unique_ptr<Planet> planet)
 {
 	if (!planet) throw std::invalid_argument("Planet nem lehet NULL ptr!");
@@ -188,12 +188,12 @@ void Sun::operator+=(std::unique_ptr<Planet> planet)
 	validatePlanetParameters(planet->getMass(), planet->getDistance(), planet->getRadius());
 	planets.push_back(std::move(planet));
 }
-
+//bolygok szama
 size_t Sun::planetCount() const
 {
 	return planets.size();
 }
-
+//adatok fancy kiirasa
 void Sun::printData() const
 {
 	std::cout << std::left
@@ -202,7 +202,7 @@ void Sun::printData() const
 		<< std::setw(15) << "Radius: " << radius<< "\n"
 		<< std::setw(15) << "Temperature: " << temperature << "\n";
 }
-
+//bolygok kiirasa
 void Sun::printPlanets() const
 {
 	std::cout << "Planets of " << name << "\n";
@@ -211,7 +211,7 @@ void Sun::printPlanets() const
 		std::cout << "--------------------\n";
 	}
 }
-
+//maradek operator
 bool Sun::operator==(const Sun& other) const
 {
 	return name == other.name &&
